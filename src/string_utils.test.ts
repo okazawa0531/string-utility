@@ -55,6 +55,12 @@ describe('snakeCase', () => {
   it('converts kebab-case', () => {
     expect(snakeCase('foo-bar')).toBe('foo_bar');
   });
+  it('collapses consecutive underscores', () => {
+    expect(snakeCase('foo__bar')).toBe('foo_bar');
+  });
+  it('converts all-caps words', () => {
+    expect(snakeCase('FOO_BAR')).toBe('foo_bar');
+  });
 });
 
 describe('kebabCase', () => {
@@ -84,6 +90,12 @@ describe('truncate', () => {
   });
   it('supports custom ellipsis', () => {
     expect(truncate('Hello, World!', 7, '…')).toBe('Hello, …');
+  });
+  it('returns truncated ellipsis when maxLength is less than ellipsis length', () => {
+    expect(truncate('Hello', 2, '...')).toBe('..');
+  });
+  it('returns ellipsis when maxLength equals ellipsis length', () => {
+    expect(truncate('Hello', 3, '...')).toBe('...');
   });
 });
 
@@ -210,6 +222,9 @@ describe('collapseRepeated', () => {
   });
   it('handles mixed input', () => {
     expect(collapseRepeated('aabbcc dd')).toBe('abc d');
+  });
+  it('collapses repeated emoji', () => {
+    expect(collapseRepeated('😀😀😀')).toBe('😀');
   });
 });
 

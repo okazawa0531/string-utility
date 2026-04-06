@@ -34,7 +34,7 @@ export function camelCase(str: string): string {
 export function snakeCase(str: string): string {
   return str
     .replace(/([A-Z])/g, '_$1')
-    .replace(/[-\s]+/g, '_')
+    .replace(/[-_\s]+/g, '_')
     .replace(/^_/, '')
     .toLowerCase();
 }
@@ -69,6 +69,7 @@ export function pascalCase(str: string): string {
  */
 export function truncate(str: string, maxLength: number, ellipsis = '...'): string {
   if (str.length <= maxLength) return str;
+  if (maxLength <= ellipsis.length) return ellipsis.slice(0, maxLength);
   return str.slice(0, maxLength - ellipsis.length) + ellipsis;
 }
 
@@ -220,7 +221,7 @@ export function isBlank(str: string): boolean {
  * @returns The string with consecutive duplicate characters collapsed to one.
  */
 export function collapseRepeated(str: string): string {
-  return str.replace(/(.)\1+/g, '$1');
+  return str.replace(/(.)\1+/gu, '$1');
 }
 
 /**
